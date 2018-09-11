@@ -39,17 +39,17 @@ bool ignore_case_string_compare(std::string const& a, std::string const& b) {
 
 int main(int argc, char *argv[]) {
 
-    std::string if0 = "tun0";
-    std::string if1 = "tun1";
-    std::string ip0 = "192.168.0.2";
-    std::string ip1 = "192.168.1.2";
-    std::string remote_ip = "127.0.0.1";
+    std::string if0 = "tun1";
+    std::string if1 = "tun0";
+    std::string ip0 = "192.168.1.2";
+    std::string ip1 = "192.168.0.2";
+    std::string remote_ip = "192.168.29.33";
     unsigned short int client_port = 55555;
     unsigned short int server_port = 55556;
     MODE mode = BOTH;
 
-    int c;
-    while (1) {
+    int c = 0;
+    while (c != -1) {
         static struct option long_options[] = {
             {"help",  no_argument, 0, 'h'},
             {"serverinterface",  required_argument, 0, 'p'},
@@ -59,16 +59,13 @@ int main(int argc, char *argv[]) {
             {"remoteip",    required_argument, 0, 'r'},
             {"outport",    required_argument, 0, 'o'},
             {"inport",    required_argument, 0, 'i'},
+            {"mode",    required_argument, 0, 'm'},
             {0, 0, 0, 0}
         };
         /* getopt_long stores the option index here. */
         int option_index = 0;
 
         c = getopt_long (argc, argv, "p:n:s:c:o:i:r:m:h", long_options, &option_index);
-
-        /* Detect the end of the options. */
-        if (c == -1)
-            break;
 
         switch (c) {
             case 'p':
@@ -106,20 +103,24 @@ int main(int argc, char *argv[]) {
                     mode = SERVER;
                 else if (ignore_case_string_compare(optarg, "both"))
                     mode = BOTH;
-                else
+                else {
                     usage();
                     exit(1);
+                }
+                break;
 
             case 'h':
                 usage();
                 exit(0);
+                break;
 
             case '?':
                 usage();
                 exit(1);
+                break;
 
             default:
-                abort ();
+                break;
         }
     }
 

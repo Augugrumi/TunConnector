@@ -56,11 +56,11 @@ namespace connection{
         if((nwrite=write(fd, buf, n)) < 0){
             BOOST_LOG_TRIVIAL(fatal) << component <<"Error on writing data";
             my_exit(1);
-        } else {
+        }/* else {
             for(int i = 0; i < nwrite ; i++) {
                 BOOST_LOG_TRIVIAL(fatal) << component << "buffer[" << i << "] = " << buf[i];
             }
-        }
+        }*/
         return nwrite;
     }
 
@@ -196,7 +196,8 @@ namespace connection{
     }
 
     TunConnector::~TunConnector() {
-        destroy_interface();
+        // TODO when to call destroy at the end of the program?
+        //destroy_interface();
     }
 
     void TunConnector::simpletunclient(const std::string& remote_ip){
