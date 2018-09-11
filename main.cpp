@@ -5,6 +5,7 @@
 #include <getopt.h>
 #include <iostream>
 #include <string>
+#include <vector>
 #include "src/TunConnector.h"
 
 enum MODE : int {CLIENT=-1, SERVER=1, BOTH=0};
