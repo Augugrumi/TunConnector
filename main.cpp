@@ -10,6 +10,9 @@
 
 enum MODE : int {CLIENT=-1, SERVER=1, BOTH=0};
 
+/**
+ * Method to print the help
+ */
 void usage() {
     const char message[] =
             "\n"
@@ -27,10 +30,20 @@ void usage() {
     std::cout <<message<<std::endl;
 }
 
+/**
+ * @param a char to be compared
+ * @param b char to be compared
+ * @return true if the char are equals ignoring the case, false otherwise
+ */
 bool ignore_case_char_compare(unsigned char a, unsigned char b) {
     return std::tolower(a) == std::tolower(b);
 }
 
+/**
+ * @param a string to be compared
+ * @param b string to be compared
+ * @return true if the strings are equals ignoring the case, false otherwise
+ */
 bool ignore_case_string_compare(std::string const& a, std::string const& b) {
     if (a.length()==b.length())
         return std::equal(b.begin(), b.end(), a.begin(), ignore_case_char_compare);
@@ -38,7 +51,7 @@ bool ignore_case_string_compare(std::string const& a, std::string const& b) {
 }
 
 int main(int argc, char *argv[]) {
-
+    // default parameters
     std::string if0 = "tun1";
     std::string if1 = "tun0";
     std::string ip0 = "192.168.1.2";
@@ -48,6 +61,7 @@ int main(int argc, char *argv[]) {
     unsigned short int server_port = 55556;
     MODE mode = BOTH;
 
+    // parse the opt arguments
     int c = 0;
     while (c != -1) {
         static struct option long_options[] = {
@@ -126,6 +140,7 @@ int main(int argc, char *argv[]) {
 
     std::vector<std::thread> threads;
 
+    // creating lambdas to be called to create the connections
     auto funcserver = [](std::string if_name,
                          unsigned short int port,
                          std::string local_ip) -> void {
@@ -139,6 +154,7 @@ int main(int argc, char *argv[]) {
         connection::TunConnector(if_name, local_ip, port).simpletunclient(remote_ip);
     };
 
+    // based on optargs create the threads
     if (mode == BOTH || mode == SERVER) {
         threads.emplace_back(std::thread(funcserver, if0, server_port, ip0));
     }
@@ -147,6 +163,7 @@ int main(int argc, char *argv[]) {
         threads.emplace_back(std::thread(funcclient, if1, remote_ip, client_port, ip1));
     }
 
+    // starting the program
     for(auto& t : threads) {
         t.join();
     }

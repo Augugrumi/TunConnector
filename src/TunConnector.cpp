@@ -64,10 +64,6 @@ namespace connection{
         return nwrite;
     }
 
-/**************************************************************************
- * read_n: ensures we read exactly n bytes, and puts them into "buf".     *
- *         (unless EOF, of course)                                        *
- **************************************************************************/
     int TunConnector::read_n(int fd, char *buf, int n, const std::string& component) {
         int nread, left = n;
 
