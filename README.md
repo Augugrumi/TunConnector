@@ -15,3 +15,18 @@ with the following options
  - `--remoteip          -r X`    To set the ip of the remote server to connect to
  - `--mode              -m [client|server|both]` To set run mode. Default `both`
  - `--help              -h`      Show this message
+
+---
+
+## Build
+```bash
+../TunConnector$ mkdir build
+../TunConnector$ cd build
+../TunConnector/build$ cmake ..
+../TunConnector/build$ make
+```
+
+## Dependencies
+```bash
+sudo apt install build-essential cmake libboost-all-dev
+```
