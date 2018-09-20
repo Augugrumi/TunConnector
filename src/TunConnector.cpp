@@ -170,15 +170,15 @@ namespace connection{
     }
 
     void TunConnector::setup_interface() {
-        system(std::string("sudo openvpn --mktun --dev " + _if_name).c_str());
-        system(std::string("sudo ip link set " + _if_name + " up").c_str());
-        system(std::string("sudo ip addr add " + _local_ip + "/24 dev " + _if_name).c_str());
+        system(std::string("openvpn --mktun --dev " + _if_name).c_str());
+        system(std::string("ip link set " + _if_name + " up").c_str());
+        system(std::string("ip addr add " + _local_ip + "/24 dev " + _if_name).c_str());
     }
 
     void TunConnector::destroy_interface() {
-        system(std::string("sudo ip addr del " + _local_ip + "/24 dev " + _if_name).c_str());
-        system(std::string("sudo ip link delete " + _if_name).c_str());
-        system(std::string("sudo openvpn --rmtun --dev " + _if_name).c_str());
+        system(std::string("ip addr del " + _local_ip + "/24 dev " + _if_name).c_str());
+        system(std::string("ip link delete " + _if_name).c_str());
+        system(std::string("openvpn --rmtun --dev " + _if_name).c_str());
     }
 
     TunConnector::TunConnector(const std::string& if_name, const std::string& local_ip,unsigned short int port) :

@@ -138,6 +138,11 @@ int main(int argc, char *argv[]) {
         }
     }
 
+    if (getuid() != 0) {
+    	BOOST_LOG_TRIVIAL(fatal) << "Must run the program as root. Exiting";
+    	exit(1);
+    }
+
     std::vector<std::thread> threads;
 
     // creating lambdas to be called to create the connections
